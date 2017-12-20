@@ -58,6 +58,10 @@ module Badge
                                      is_string: false,
                                      optional: true),
 
+        FastlaneCore::ConfigItem.new(key: :shield_url,
+                                     description: "URL of shields.io server to use, defaults to #{Badge.shield_serveice_base_url}",
+                                     optional: true),
+
         FastlaneCore::ConfigItem.new(key: :glob,
                                      description: "Glob pattern for finding image files Default: CURRENT_PATH/**/*.appiconset/*.{png,PNG}",
                                      optional: true)

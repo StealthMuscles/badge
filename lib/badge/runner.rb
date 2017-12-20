@@ -30,7 +30,7 @@ module Badge
           timeout = Badge.shield_service_timeout
           timeout = options[:shield_service_timeout] if options[:shield_service_timeout]
           Timeout.timeout(timeout.to_i) do
-            shield = load_shield(options[:shield]) if options[:shield]
+            shield = load_shield(options[:shield], options[:shield_url]) if options[:shield]
           end
         rescue Timeout::Error
           UI.error "Error loading image from #{Badge.shield_service_name} timeout reached. Use --verbose for more info".red
@@ -119,8 +119,8 @@ module Badge
       result = composite(result, new_shield, alpha_channel, shield_gravity || "north", shield_geometry)
     end
 
-    def load_shield(shield_string)
-      url = Badge.shield_serveice_base_url + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
+    def load_shield(shield_string, shield_url)
+      url = (shield_url ? shield_url : Badge.shield_serveice_base_url) + Badge.shield_path + shield_string + (@@rsvg_enabled ? ".svg" : ".png")
       file_name = shield_string + (@@rsvg_enabled ? ".svg" : ".png")
 
       UI.verbose "Trying to load image from #{Badge.shield_service_name}. Timeout: #{Badge.shield_service_timeout}s".blue
